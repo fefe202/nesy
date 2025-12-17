@@ -3,7 +3,7 @@ import pandas as pd
 import chromadb
 from sentence_transformers import SentenceTransformer
 from langchain_ollama import ChatOllama
-from langchain.schema import SystemMessage, HumanMessage
+from langchain_core.messages import SystemMessage, HumanMessage
 from ddgs import DDGS
 import json
 import re 
