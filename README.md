@@ -25,7 +25,7 @@ pip install torch torchvision numpy matplotlib tqdm jupyter
 ```
 
 **Usage:**
-1. Import the notebook `notebooke8ba85730c (1).ipynb` into [Kaggle](https://www.kaggle.com/).
+1. Import the notebook `project-foundation.ipynb` into [Kaggle](https://www.kaggle.com/).
 2. In the notebook editor, go to **Settings** (right sidebar).
 3. Under **Accelerator**, select **GPU P100**.
 4. Run the notebook.
@@ -57,7 +57,7 @@ streamlit run project_llm_lab.py
 ## Folder Overview
 
 ### `/Foundations`
-- `notebooke...ipynb`: The main notebook implementing a **Sorting Network** with **Semantic Loss** regularization. It demonstrates how to enforce logical constraints (permutations) on a neural network output in a semi-supervised setting using MNIST data.
+- `project-foundation.ipynb`: The main notebook implementing a **Sorting Network** with **Semantic Loss** regularization. It demonstrates how to enforce logical constraints (permutations) on a neural network output in a semi-supervised setting using MNIST data.
 
 ### `/LLM_Lab`
 - `project_llm_lab.py`: Main Streamlit application file.
