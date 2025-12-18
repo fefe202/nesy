@@ -1,0 +1,5 @@
+streamlit
+chromadb
+langchain_ollama
+ddgs
+streamlit_elements

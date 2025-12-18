@@ -240,6 +240,7 @@ IMPORTANTE per 'settore':
 class IntelligenceAgent:
     def __init__(self, llm, collection, embedding_model):
         self.llm = llm
+        self.second_llm = ChatOllama(model=GEMMA_MODEL, base_url=OLLAMA_BASE_URL)
         self.collection = collection
         self.embedding_model = embedding_model
         self.synthesis_prompt = SystemMessage(content="""
@@ -468,14 +469,40 @@ La tua risposta deve essere solo prosa.
 
 
         query_gen_prompt = [
-            SystemMessage(content="Genera la query di ricerca web più efficace per trovare trend aggiornati e statistiche per questa idea. Rispondi SOLO con la query."),
-            HumanMessage(content=f"Contesto: {context}\nDati RAG: {rag_data_pie}\n{rag_data_bar}\nQuery:")
+            SystemMessage(content="""
+                Sei un esperto di ricerche Google. Il tuo obiettivo è trovare notizie fresche e dati reali.
+                Genera 3 query di ricerca SEMPLICI e DIRETTE per DuckDuckGo.
+
+                REGOLE CRITICHE:
+                1. NON usare termini complessi come "analisi", "casi studio", "panoramica", "report", "overview".
+                2. Usa un linguaggio naturale, come se stessi cercando notizie su Google News.
+                3. Includi sempre la ZONA geografica e l'ANNO corrente.
+
+                STRUTTURA RICHIESTA:
+                1. Query per la concorrenza (usa parole come: "migliori", "classifica", "elenco").
+                2. Query per le novità (usa parole come: "nuove aperture", "notizie", "chiusure").
+                3. Query per i dati (usa parole come: "statistiche", "numeri", "quanti sono").
+
+                Rispondi ESCLUSIVAMENTE con le 3 query, una per riga, senza numeri o elenchi puntati.
+                Usa parole chiave specifiche in italiano"""),
+
+            HumanMessage(content=f"Business: {tipo_business}\nSettore: {settore}\nZona: {regione_specifica}\nQuery:")
         ]
+
+        web_results = ""
+
         try:
-            llm_gemma = ChatOllama(model=GEMMA_MODEL, base_url=OLLAMA_BASE_URL)
-            web_query = llm_gemma.invoke(query_gen_prompt).content.strip().replace("\"", "") # pyright: ignore[reportAttributeAccessIssue]
+            web_query = self.second_llm.invoke(query_gen_prompt).content.strip().replace("\"", "") # pyright: ignore[reportAttributeAccessIssue]
+            
+            queries = [q.strip() for q in web_query.split('\n') if q.strip()]
+            queries = queries[:3]
+
             with st.spinner(f"🌐 Ricerca IA: '{web_query}'..."):
-                web_results = search_web_function(web_query, max_results=3)
+                for i, q in enumerate(queries):
+                    clean_q = q.replace('"', '').replace("'", "").strip()
+                    web_result = search_web_function(clean_q, max_results=3)
+                    web_results += f"Risultati per query: {clean_q}\n\n" + web_result + "\n\n"
+
         except Exception as e:
             st.warning(f"Ricerca web non disponibile: {e}")
             web_results = "Nessun dato web disponibile."
