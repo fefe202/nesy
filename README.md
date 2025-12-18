@@ -25,7 +25,7 @@ pip install torch torchvision numpy matplotlib tqdm jupyter
 ```
 
 **Usage:**
-1. Import the notebook `project-foundation.ipynb` into [Kaggle](https://www.kaggle.com/).
+1. Import the notebook `project-foundation_*.ipynb` into [Kaggle](https://www.kaggle.com/).
 2. In the notebook editor, go to **Settings** (right sidebar).
 3. Under **Accelerator**, select **GPU P100**.
 4. Run the notebook.
@@ -51,16 +51,24 @@ ollama pull llama3.2
 Run the Streamlit application from the `LLM_Lab` directory:
 ```bash
 cd LLM_Lab
-streamlit run project_llm_lab.py
+python -m streamlit run project_llm_lab.py
 ```
 
 ## Folder Overview
 
 ### `/Foundations`
-- `project-foundation.ipynb`: The main notebook implementing a **Sorting Network** with **Semantic Loss** regularization. It demonstrates how to enforce logical constraints (permutations) on a neural network output in a semi-supervised setting using MNIST data.
+This directory contains the foundational work for the Neurosymbolic project, specifically focusing on the concept of **Semantic Loss**.
+
+**Subdirectories:**
+- **`notebooks/`**: Jupyter notebooks containing experiments and implementations.
+    - `project_foundations_1.ipynb`: Experiments with 1% supervision.
+    - `project_foundations_10.ipynb`: Experiments with 10% supervision.
+- **`docs/`**: Presentations and documentation files.
+    - `Presentation.pdf/pptx`: Project presentation.
+    - `orderList5NumbersSemanticLoss.pdf`: Detailed explanation of the sorting task.
+- **`assets/`**: Images and diagrams used in notebooks and documentation.
 
 ### `/LLM_Lab`
 - `project_llm_lab.py`: Main Streamlit application file.
 - `Business Co-pilot Presentation.pdf` / `Report_LLM.pdf`: Documentation and slides for the project.
 - `imprese_attive_2021.csv`: Dataset used for the RAG knowledge base.
-
