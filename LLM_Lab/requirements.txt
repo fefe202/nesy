@@ -1,5 +1,9 @@
 streamlit
 chromadb
+google-generativeai
+sentence-transformers
+duckduckgo-search
+streamlit-elements
 langchain_ollama
 ddgs
 streamlit_elements
